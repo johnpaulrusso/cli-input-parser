@@ -17,11 +17,31 @@ export interface ParserConfig {
   supportedCommands: CommandConfig[];
 }
 
-export interface ParsedInput {
+export class ParsedInput {
   command: string;
   flaggedArgs: Array<{
     flag: string;
-    value?: unknown;
+    value?: string;
   }>;
-  flaglessArgs: unknown[];
+  flaglessArgs: string[];
+
+  constructor() {
+    this.command = '';
+    this.flaggedArgs = [];
+    this.flaglessArgs = [];
+  }
+
+  hasFlag(flag: string): boolean {
+    return this.flaggedArgs.findIndex((a) => a.flag === flag) > -1;
+  }
+
+  hasFlagWithValue(flag: string): boolean {
+    const arg = this.flaggedArgs.find((f) => f.flag === flag);
+    return arg ? (arg.value ? true : false) : false;
+  }
+
+  getFlagValue(flag: string): string {
+    const arg = this.flaggedArgs.find((f) => f.flag === flag);
+    return arg ? (arg.value ?? '') : '';
+  }
 }

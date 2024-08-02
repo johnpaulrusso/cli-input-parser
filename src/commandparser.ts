@@ -20,11 +20,8 @@ export class CommandParser {
     if (!this.config) {
       throw new CLIParseError(`Unrecognized command: ${input.command}`);
     }
-    this.parsed = {
-      command: input.command,
-      flaggedArgs: [],
-      flaglessArgs: [],
-    };
+    this.parsed = new ParsedInput();
+    this.parsed.command = input.command;
   }
 
   parse(): ParsedInput {

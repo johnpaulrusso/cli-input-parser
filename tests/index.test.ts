@@ -168,6 +168,7 @@ test.only('Test new parser flag that does not expect a value', () => {
     expect(parsed.flaglessArgs.length).toBe(1);
     expect(parsed.flaggedArgs[0].flag).toBe('v');
     expect(parsed.flaglessArgs[0]).toBe('12');
+    expect(parsed.hasFlagWithValue('v')).toBeFalsy();
 });
 
 test.only('Test new parser flag that does expect a value from a string list', () => {
@@ -205,4 +206,12 @@ test.only('Test new parser complex command', () => {
     expect(parsed.flaggedArgs[1].value).toBe('prod');
     expect(parsed.flaglessArgs[0]).toBe('Alice');
     expect(parsed.flaglessArgs[1]).toBe('John');
+
+    expect(parsed.hasFlag('n')).toBeTruthy();
+    expect(parsed.hasFlag('m')).toBeTruthy();
+    expect(parsed.hasFlagWithValue('n')).toBeTruthy();
+    expect(parsed.hasFlagWithValue('m')).toBeTruthy();
+    expect(parsed.getFlagValue('n')).toBe('25');
+    expect(parsed.getFlagValue('m')).toBe('prod');
+    expect(parsed.hasFlag('v')).toBeFalsy();
 });
