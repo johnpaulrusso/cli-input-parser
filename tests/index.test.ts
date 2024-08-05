@@ -12,7 +12,7 @@ const testConfig: ParserConfig = {
             verbose: 'verbose',
           },
         ],
-        accepts: ['dev', 'prod'],
+        accepts: ['dev', 'prod', 'Two Words'],
       },
       {
         name: 'test2',
@@ -147,6 +147,13 @@ test.only('Test new parser expecting no non-flagged arguments', () => {
         .toThrow(new CLIParseError('Invalid argument noflag'));
 });
 
+test.only('Test parse two args without quotes', () => {
+    const raw1 = "test1 -v Two Words";
+    
+    expect(() => parser.parse(raw1))
+        .toThrow(new CLIParseError('Invalid argument Two'));
+});
+
 //Sunny day cases
 test.only('Test new parser flag that does not expect a value', () => {
     const raw1 = "test1 -v prod";
@@ -214,4 +221,26 @@ test.only('Test new parser complex command', () => {
     expect(parsed.getFlagValue('n')).toBe('25');
     expect(parsed.getFlagValue('m')).toBe('prod');
     expect(parsed.hasFlag('v')).toBeFalsy();
+});
+
+test.only('Test parse single quoted argument', () => {
+    const raw1 = "test1 -v \'Two Words\'";
+    
+    const parsed = parser.parse(raw1)
+    expect(parsed.command).toBe('test1');
+    expect(parsed.flaggedArgs.length).toBe(1);
+    expect(parsed.flaglessArgs.length).toBe(1);
+    expect(parsed.flaggedArgs[0].flag).toBe('v');
+    expect(parsed.flaglessArgs[0]).toBe('Two Words');
+});
+
+test.only('Test parse double quoted argument', () => {
+    const raw1 = "test1 -v \"Two Words\"";
+    
+    const parsed = parser.parse(raw1)
+    expect(parsed.command).toBe('test1');
+    expect(parsed.flaggedArgs.length).toBe(1);
+    expect(parsed.flaglessArgs.length).toBe(1);
+    expect(parsed.flaggedArgs[0].flag).toBe('v');
+    expect(parsed.flaglessArgs[0]).toBe('Two Words');
 });

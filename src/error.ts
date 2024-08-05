@@ -7,8 +7,8 @@ export class CLIParseError extends Error {
 }
 
 export class CLINeedHelp extends Error {
-  constructor(message: string) {
-    super(message); // Call the parent constructor with the message
+  constructor(command: string) {
+    super(command); // Call the parent constructor with the message
     this.name = 'CLINeedHelp'; // Set the error name
     Object.setPrototypeOf(this, CLINeedHelp.prototype); // Restore prototype chain
   }

@@ -19,7 +19,7 @@ export class CLIParser {
       throw new CLIParseError('No input provided');
     }
 
-    const parts = input.split(' ');
+    const parts = this.splitString(input);
     if (parts.length === 0) {
       throw new CLIParseError('No input provided');
     }
@@ -33,4 +33,25 @@ export class CLIParser {
 
     return { command, args };
   };
+
+  private splitString(input: string): string[] {
+    const regex = /"([^"]*)"|'([^']*)'|(\S+)/g;
+    const result: string[] = [];
+    let match;
+
+    while ((match = regex.exec(input)) !== null) {
+      if (match[1] !== undefined) {
+        // Double-quoted string without quotes
+        result.push(match[1]);
+      } else if (match[2] !== undefined) {
+        // Single-quoted string without quotes
+        result.push(match[2]);
+      } else {
+        // Unquoted word
+        result.push(match[3]);
+      }
+    }
+
+    return result;
+  }
 }
