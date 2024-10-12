@@ -6,6 +6,7 @@ const testConfig: ParserConfig = {
     supportedCommands: [
       {
         name: 'test1',
+        alias: 't1',
         flags: [
           {
             character: 'v',
@@ -243,4 +244,15 @@ test.only('Test parse double quoted argument', () => {
     expect(parsed.flaglessArgs.length).toBe(1);
     expect(parsed.flaggedArgs[0].flag).toBe('v');
     expect(parsed.flaglessArgs[0]).toBe('Two Words');
+});
+
+test.only('Test alias', () => {
+    const raw1 = "t1 -v prod";
+    
+    const parsed = parser.parse(raw1)
+    expect(parsed.command).toBe('test1');
+    expect(parsed.flaggedArgs.length).toBe(1);
+    expect(parsed.flaglessArgs.length).toBe(1);
+    expect(parsed.flaggedArgs[0].flag).toBe('v');
+    expect(parsed.flaglessArgs[0]).toBe('prod');
 });

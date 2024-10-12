@@ -15,13 +15,13 @@ export class CommandParser {
   constructor(input: SeparatedRawInput, config: ParserConfig) {
     this.input = input;
     this.config = config.supportedCommands.find(
-      (c) => c.name === input.command,
+      (c) => c.name === input.command || c.alias === input.command,
     );
     if (!this.config) {
       throw new CLIParseError(`Unrecognized command: ${input.command}`);
     }
     this.parsed = new ParsedInput();
-    this.parsed.command = input.command;
+    this.parsed.command = this.config.name;
   }
 
   parse(): ParsedInput {

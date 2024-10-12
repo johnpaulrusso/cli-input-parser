@@ -5,12 +5,23 @@ export interface SeparatedRawInput {
 
 export interface CommandConfig {
   name: string;
+  alias?: string; //Optional shorter version of command. Ex: add-two-numbers -> add2
+  description?: string; //Command description.
   flags: Array<{
     character: string; //-<char>
     verbose: string; //--<verbose>
     accepts?: string[] | RegExp;
+    acceptsDescription?: string; //If accepts is a regexp, use this for the human readable format.
+    description?: string; //Description of the flag.
   }>;
   accepts?: string[] | RegExp;
+  //This is an array incase there are multiple un-flagged arguments.
+  arguments?: Array<{
+    name: string;
+    acceptsDescription?: string; //If accepts is a regexp, use this for the human readable format.
+    description?: string;
+  }>;
+  examples?: string[]; //Array of example commands.
 }
 
 export interface ParserConfig {
