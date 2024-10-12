@@ -69,6 +69,22 @@ const testConfig: ParserConfig = {
         ],
         accepts: ['Bob', 'Alice', 'John'],
       },
+      {
+        name: 'test7',
+        flags: [
+          {
+            character: 'm',
+            verbose: 'mode',
+            accepts: ['dev', 'prod'],
+          },
+          {
+            character: 'n',
+            verbose: 'number',
+            accepts: /^(?:[1-9]|[1-9][0-9])$/,
+          },
+        ],
+        accepts: ['Bob', 'Alice', 'John'],
+      },
     ],
   };
   
